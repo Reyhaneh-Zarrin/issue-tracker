@@ -27,9 +27,9 @@ const NavBar = () => {
               (classNames(
                 "tracking-normal",
                 {
-                "text-zinc-900": currentPath !== link.href,
-                "text-zinc-500": currentPath === link.href,
-                "hover:text-zinc-800": true,
+                "text-zinc-500": currentPath !== link.href,
+                "text-zinc-900": currentPath === link.href,
+                "hover:text-zinc-600": true,
               }))
             }
             href={link.href}
