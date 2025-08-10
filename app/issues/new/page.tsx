@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Button, TextField, TextArea, Callout } from "@radix-ui/themes";
+import { Button, TextField, TextArea, Callout, Spinner  } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 
 interface IssueForm {
@@ -39,7 +39,7 @@ const NewIssuePage = () => {
       <TextField.Root placeholder="Title" {...register("title")} />
       <TextArea placeholder="Description" {...register("description")} />
 
-      <Button disabled={isSubmitting}>Submit New Issue</Button>
+      <Button disabled={isSubmitting}>Submit New Issue {isSubmitting &&<Spinner />}</Button>
     </form>
   );
 };
