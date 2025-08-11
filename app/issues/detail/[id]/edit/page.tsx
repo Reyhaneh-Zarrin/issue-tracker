@@ -1,34 +1,53 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
-import {
-  Button,
-  TextField,
-  TextArea,
-  Callout,
-  Spinner,
-} from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
+import { Button, TextField, Callout, Spinner } from "@radix-ui/themes";
+import dynamic from "next/dynamic";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 interface IssueForm {
   title: string;
   description: string;
 }
 
-const NewIssuePage = () => {
+const EditIssue = ({ params }: { params: Promise<{ id: string }> }) => {
+  const actualParams = React.use(params);
+  const id = actualParams.id;
+  const [showTitleField, setShowTitleField] = useState(false);
   const [errorMessege, setErrorMessege] = useState<string | null>(null);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
+  const { register, handleSubmit, control, reset } = useForm<IssueForm>({
+    defaultValues: { title: "", description: "" },
+  });
   const router = useRouter();
-  const { register, handleSubmit, control } = useForm<IssueForm>();
+
+  useEffect(() => {
+    axios
+      .get(`/api/issues/${id}`)
+      .then((res) => {
+        reset({
+          title: res.data.title,
+          description: res.data.description,
+        });
+        setShowTitleField(true);
+      })
+
+      .catch(() => {
+        setErrorMessege("Failed to load issue data");
+      });
+  }, [id, reset]);
 
   const submit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
       setErrorMessege(null);
-      await axios.post("/api/issues", data);
+      await axios.patch("/api/issues/" + id, data);
       router.push("/issues");
     } catch (error) {
       setSubmitting(false);
@@ -44,8 +63,9 @@ const NewIssuePage = () => {
         </Callout.Root>
       )}
 
-      <TextField.Root placeholder="Title" {...register("title")} />
-
+      {showTitleField && (
+        <TextField.Root placeholder="Title" {...register("title")} />
+      )}
       <Controller
         name="description"
         control={control}
@@ -55,10 +75,10 @@ const NewIssuePage = () => {
       />
 
       <Button disabled={isSubmitting}>
-        Submit New Issue {isSubmitting && <Spinner />}
+        Update Issue{isSubmitting && <Spinner />}
       </Button>
     </form>
   );
 };
 
-export default NewIssuePage;
+export default EditIssue;

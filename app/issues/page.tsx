@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, TextField, Table, Badge } from "@radix-ui/themes";
-import Link from "next/link";
+import { Button, Table, Badge } from "@radix-ui/themes";
+import Link from "../components/link";
 import prisma from "@/prisma/client";
 import { Status } from "@prisma/client";
 import delay from "delay";
@@ -23,9 +23,11 @@ const IssuesPage = async () => {
   };
   return (
     <div>
-      <Link href="issues/new" className="block mb-5">
-        <Button>Add Issue</Button>
-      </Link>
+      <div className="block mb-5">
+        <Link href="issues/new">
+          <Button>Add Issue</Button>
+        </Link>
+      </div>
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
