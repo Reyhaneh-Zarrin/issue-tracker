@@ -1,4 +1,5 @@
 import prisma from "@/prisma/client";
+import delay from "delay";
 import { NextRequest, NextResponse } from "next/server";
 import React from "react";
 import { z } from "zod";
@@ -7,7 +8,6 @@ const schema = z.object({
   title: z.string().min(1).max(255),
   description: z.string().min(1),
 });
-
 
 export async function GET(
   request: NextRequest,
@@ -22,8 +22,6 @@ export async function GET(
 
   return NextResponse.json(issue);
 }
-
-
 
 export async function PATCH(
   request: NextRequest,
@@ -52,7 +50,6 @@ export async function PATCH(
   return NextResponse.json(updatedIssue);
 }
 
-
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -64,9 +61,8 @@ export async function DELETE(
   });
   if (!issue)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
-  
   await prisma.issue.delete({
-    where:{id: issue.id}
-  })
+    where: { id: issue.id },
+  });
   return NextResponse.json({});
 }

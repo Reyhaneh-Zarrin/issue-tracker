@@ -54,7 +54,7 @@ const NewIssuePage = () => {
         )}
       />
 
-      <Button disabled={isSubmitting}>
+      <Button variant="surface" disabled={isSubmitting}>
         Submit New Issue {isSubmitting && <Spinner />}
       </Button>
     </form>
