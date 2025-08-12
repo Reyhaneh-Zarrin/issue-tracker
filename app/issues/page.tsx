@@ -4,6 +4,7 @@ import Link from "../components/link";
 import prisma from "@/prisma/client";
 import { Status } from "@prisma/client";
 import delay from "delay";
+import StatusBadge from "../components/statusBadge";
 
 const IssuesPage = async () => {
   //await delay(2000);
@@ -12,23 +13,15 @@ const IssuesPage = async () => {
       createdAt: "desc",
     },
   });
-  const StatusBadge = (status: Status) => {
-    if (status === "OPEN") {
-      return <Badge color="red">OPEN</Badge>;
-    } else if (status === "IN_PROGRESS") {
-      return <Badge color="violet">IN PROGRESS</Badge>;
-    } else if (status === "CLOSED") {
-      return <Badge color="green">CLOSED</Badge>;
-    }
-  };
+// md:w-3/4 p-4
   return (
-    <div>
+    <div className="w-full ">
       <div className="block mb-5">
         <Link href="issues/new">
-          <Button>Add Issue</Button>
+          <Button variant="surface">Add Issue</Button>
         </Link>
       </div>
-      <Table.Root variant="surface">
+      <Table.Root className="w-full rounded-lg border border-gray-200 shadow-[0_0_10px_2px_rgba(0,0,0,0.1)]">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
@@ -51,7 +44,7 @@ const IssuesPage = async () => {
                 </Link>
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {StatusBadge(issue.status)}
+                <StatusBadge status={issue.status}/>
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
                 {issue.createdAt.toDateString()}

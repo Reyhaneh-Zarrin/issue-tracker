@@ -4,6 +4,8 @@ import delay from "delay";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import StatusBadge from "@/app/components/statusBadge";
+import DeleteButton from "./deleteButton";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -23,20 +25,10 @@ const IssueDetailPage = async ({ params }: Props) => {
 
   return (
     <Box>
-      <div className="max-w-2xl mx-auto mt-10 p-4">
-        <h1 className="text-2xl font-bold mb-6">Issue Details</h1>
+      <div className="max-w-2xl p-4 ">
+        <h1 className="text-xl font-bold mb-6">Issue Details:</h1>
         {/* <Grid columns={{ initial: "1", md: "2" }} gap="4"> */}
-        <Table.Root variant="surface" className="w-full">
-          <thead>
-            <tr>
-              <th className="text-left font-semibold px-4 py-2 bg-gray-100">
-                Field
-              </th>
-              <th className="text-left font-semibold px-4 py-2 bg-gray-100">
-                Value
-              </th>
-            </tr>
-          </thead>
+        <Table.Root variant="ghost" className="w-full">
           <Table.Body>
             <Table.Row>
               <Table.Cell>Title</Table.Cell>
@@ -44,7 +36,9 @@ const IssueDetailPage = async ({ params }: Props) => {
             </Table.Row>
             <Table.Row>
               <Table.Cell>Status</Table.Cell>
-              <Table.Cell>{selectedIssue.status}</Table.Cell>
+              <Table.Cell>
+                <StatusBadge status={selectedIssue.status} />
+              </Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Created At</Table.Cell>
@@ -64,10 +58,13 @@ const IssueDetailPage = async ({ params }: Props) => {
             </Table.Row>
           </Table.Body>
         </Table.Root>
-        <div className="mt-6">
-          <Button>
-            <Link href={`/issues/detail/${selectedIssue.id}/edit`}>Edit Issue</Link>
+        <div className="mt-6 flex gap-4">
+          <Button variant="surface">
+            <Link href={`/issues/detail/${selectedIssue.id}/edit`}>
+              Edit Issue
+            </Link>
           </Button>
+          <DeleteButton issueId={selectedIssue.id} />
         </div>
         {/* </Grid> */}
       </div>

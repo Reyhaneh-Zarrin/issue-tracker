@@ -11,7 +11,11 @@
   }
 }
 
-body {
+ /* body {
   color: rgb(var(--foreground-rgb));
 
+}  */
+
+body {
+  background-color: #27211a !important;
 }
