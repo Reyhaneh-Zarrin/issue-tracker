@@ -1,6 +1,6 @@
 # Issue Tracker 
 
-A simple **Issue Tracking App** built with **Next.js 13**, **NextAuth.js**, **Prisma**, and **Radix UI**.  
+A simple **Issue Tracking App** built with **Next.js 13**,**TypeScript**, **NextAuth.js**, **Prisma**, and **Radix UI**.  
 This app allows users to sign in with Google/GitHub, track issues, and manage them via a clean UI.  
 
 ---
