@@ -1,4 +1,4 @@
-<img width="992" height="812" alt="image" src="https://github.com/user-attachments/assets/0f896ab5-3e52-4871-8827-4bfab0ba84d3" /># Issue Tracker 
+# Issue Tracker 
 
 A simple **Issue Tracking App** built with **Next.js 13**, **NextAuth.js**, **Prisma**, and **Radix UI**.  
 This app allows users to sign in with Google/GitHub, track issues, and manage them via a clean UI.  
