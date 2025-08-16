@@ -1,34 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<img width="992" height="812" alt="image" src="https://github.com/user-attachments/assets/0f896ab5-3e52-4871-8827-4bfab0ba84d3" /># Issue Tracker 
+
+A simple **Issue Tracking App** built with **Next.js 13**, **NextAuth.js**, **Prisma**, and **Radix UI**.  
+This app allows users to sign in with Google/GitHub, track issues, and manage them via a clean UI.  
+
+---
+
+## Screenshots
+
+### Dashboard
+<img width="995" height="814" alt="image" src="https://github.com/user-attachments/assets/6c38b2e5-14cb-44d7-92fa-ff3f504e75a0" />
+
+
+### Issues Page
+<img width="992" height="812" alt="image" src="https://github.com/user-attachments/assets/d1e0e2f1-05e5-4c25-9fdb-92515ac0db98" />
+
+
+---
+
+## Features
+- 🔑 Authentication with **Google** and **GitHub** (via NextAuth.js)
+- 🗂 Issue management (create, update, delete)
+- 🎨 Modern UI with **Radix UI** & **Tailwind CSS**
+- 🗄 Database powered by **Prisma** + **PostgreSQL**
+- 🔐 JWT-based sessions
+
+---
+
+## Tech Stack
+- [Next.js 13](https://nextjs.org/) – React framework with App Router  
+- [NextAuth.js](https://next-auth.js.org/) – Authentication  
+- [Prisma](https://www.prisma.io/) – ORM  
+- [Radix UI](https://www.radix-ui.com/) – UI components  
+- [Tailwind CSS](https://tailwindcss.com/) – Styling  
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1️⃣ Clone the repo
+```bash
+git clone https://github.com/your-username/issue-tracker.git
+cd issue-tracker
+````
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Configure environment variables
+
+Create a `.env` file in the root:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/yourdb"
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
+GITHUB_ID="your_github_id"
+GITHUB_SECRET="your_github_secret"
+NEXTAUTH_SECRET="your_secret"
+```
+
+### 4️⃣ Migrate database
+
+```bash
+npx prisma migrate dev
+```
+
+### 5️⃣ Run the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will be available at: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Project Structure
 
-## Learn More
+```
+/app
+  /issues                  # Pages related to issues
+    /detail
+      /[id]/edit           # Edit page for a specific issue
+    /new                   # Page to create a new issue
+  /api
+    /auth                  # NextAuth API routes (login, callback, etc.)
+    /issues                # API routes for creating/fetching issues
+    /summary               # API route for dashboard summary data
+  /components              # Reusable UI components (buttons, modals, images, etc.)
+/prisma                    # Prisma schema and database migrations
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
