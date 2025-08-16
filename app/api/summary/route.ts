@@ -21,6 +21,7 @@ export async function GET() {
   return NextResponse.json({
     openCount,
     closedCount,
+    inProgressCount,
     todayCount,
   });
 }

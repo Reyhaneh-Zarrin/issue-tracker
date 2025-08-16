@@ -22,7 +22,10 @@ export default function DashboardPage() {
   if (!data) return <Text>Loading...</Text>;
 
   const total = data.openCount + data.closedCount + data.inProgressCount;
-  const progressValue = total > 0 ? (data.closedCount / total) * 100 : 0;
+  const progress =
+    total > 0
+      ? ((data.closedCount + 0.5 * data.inProgressCount) / total) * 100
+      : 0;
 
   return (
     <div style={{ display: "grid", gap: "1rem", maxWidth: "500px" }}>
@@ -37,10 +40,10 @@ export default function DashboardPage() {
               Closed: <strong>{data.closedCount}</strong>
             </Text>
             <Text>
-              In Progress: <strong>{data.closedCount}</strong>
+              In Progress: <strong>{data.inProgressCount}</strong>
             </Text>
           </Flex>
-          <Progress value={progressValue} size="3" />
+          <Progress value={progress} size="3" />
 
           <Text weight="bold" color="blue">
             Today’s activity: {data.todayCount} issues
