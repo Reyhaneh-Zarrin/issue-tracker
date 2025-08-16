@@ -1,25 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import prisma from "@/prisma/client";
+import { z } from "zod";
 
 const createIssue = z.object({
   title: z.string().min(1).max(255),
   description: z.string().min(1),
+  imageUrl: z.string().optional(), // public_id ذخیره میشه
 });
 
 export async function POST(request: NextRequest) {
-  //first we wait for the data
   const body = await request.json();
-  //validate it
-  const validation = createIssue.safeParse(body);
-  if (!validation.success) {
-    return NextResponse.json(validation.error.errors, { status: 400 });
-  }
-  //add to table
+
+  const parsed = createIssue.safeParse(body);
+  if (!parsed.success)
+    return NextResponse.json(parsed.error.errors, { status: 400 });
+
+  const { title, description, imageUrl } = parsed.data;
+
   const newIssue = await prisma.issue.create({
-    data: { title: body.title, description: body.description },
+    data: {
+      title,
+      description,
+      imageUrl, // فقط اگر هست
+    },
   });
+
   return NextResponse.json(newIssue, { status: 201 });
 }
-
-

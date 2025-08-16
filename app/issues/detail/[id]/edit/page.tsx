@@ -4,9 +4,16 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import "easymde/dist/easymde.min.css";
-
-import { Button, TextField, Callout, Spinner } from "@radix-ui/themes";
+import StatusButton from "./statusButton";
+import {
+  Button,
+  TextField,
+  Callout,
+  Spinner,
+  Flex,
+} from "@radix-ui/themes";
 import dynamic from "next/dynamic";
+
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
@@ -73,10 +80,12 @@ const EditIssue = ({ params }: { params: Promise<{ id: string }> }) => {
           <SimpleMDE placeholder="Description" {...field} />
         )}
       />
-
-      <Button disabled={isSubmitting}>
-        Update Issue{isSubmitting && <Spinner />}
-      </Button>
+      <Flex gap="3">
+        <StatusButton issueId={parseInt(id)} />
+        <Button disabled={isSubmitting}>
+          Update Issue{isSubmitting && <Spinner />}
+        </Button>
+      </Flex>
     </form>
   );
 };

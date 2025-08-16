@@ -2,29 +2,34 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
-import {
-  Button,
-  TextField,
-  TextArea,
-  Callout,
-  Spinner,
-} from "@radix-ui/themes";
+import { Button, TextField, Callout, Spinner, TextArea } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
+ import "easymde/dist/easymde.min.css";
+import ImageUpload from "./uploadImage";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
+import dynamic from "next/dynamic";
 interface IssueForm {
   title: string;
   description: string;
+  imageUrl?: string;
 }
 
 const NewIssuePage = () => {
   const [errorMessege, setErrorMessege] = useState<string | null>(null);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
   const router = useRouter();
-  const { register, handleSubmit, control } = useForm<IssueForm>();
+  const { register, handleSubmit, control, setValue } = useForm<IssueForm>();
 
   const submit = handleSubmit(async (data) => {
+    if (!data.title?.trim() || !data.description?.trim()) {
+      setErrorMessege("Please fill in both title and description");
+      return;
+    }
+
     try {
       setSubmitting(true);
       setErrorMessege(null);
@@ -32,7 +37,7 @@ const NewIssuePage = () => {
       router.push("/issues");
     } catch (error) {
       setSubmitting(false);
-      setErrorMessege("Fill the title and description properly");
+      setErrorMessege("Something went wrong while creating the issue");
     }
   });
 
@@ -50,8 +55,20 @@ const NewIssuePage = () => {
         name="description"
         control={control}
         render={({ field }) => (
-          <SimpleMDE placeholder="Description" {...field} />
+          <SimpleMDE
+            value={field.value}
+            onChange={field.onChange}
+            placeholder="Description"
+          />
         )}
+
+      />
+      {/* <TextArea placeholder="Description" {...register("description")} /> */}
+
+      <ImageUpload
+        onUploadComplete={(url) =>
+          setValue("imageUrl", url, { shouldValidate: true, shouldDirty: true })
+        }
       />
 
       <Button variant="surface" disabled={isSubmitting}>
